@@ -1,30 +1,41 @@
+
 import { useWorkoutsContext } from '../hooks/useWorkoutsContext'
+import { useAuthContext } from '../hooks/useAuthContext'
 import { FaTrash } from 'react-icons/fa';
-//date fns
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+// date fns
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const WorkoutDetails = ({ workout }) => {
+  const { dispatch } = useWorkoutsContext()
+  const { user } = useAuthContext()
 
-    const { dispatch } = useWorkoutsContext();
+  const handleClick = async () => {
+    if (!user) {
+      return
+    }
 
-    const handleDelete = async (id) => {
-        const response = await fetch('/api/workouts/' + id, {
-            method: 'DELETE'
-        });
-        const json = await response.json();
+    const response = await fetch('/api/workouts/' + workout._id, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+    })
+    const json = await response.json()
 
-        if (response.ok) {
-            dispatch({ type: 'DELETE_WORKOUT', payload: json });
-        }
-    };
-    return (
-        <div className="workout-details">
-            <h4><strong>{workout.title}</strong></h4>
-            <p><strong>{workout.load}kg</strong></p>
-            <p><strong>{workout.reps} reps</strong></p>
-            <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
-            <span onClick={() => handleDelete(workout._id)} className="material-symbols-outlined"><FaTrash /></span>
-        </div>
-    );
+    if (response.ok) {
+      dispatch({type: 'DELETE_WORKOUT', payload: json})
+    }
+  }
+
+  return (
+    <div className="workout-details">
+      <h4>{workout.title}</h4>
+      <p><strong>Load (kg): </strong>{workout.load}</p>
+      <p><strong>Reps: </strong>{workout.reps}</p>
+      <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
+      <span className="material-symbols-outlined" onClick={handleClick}><FaTrash /></span>
+    </div>
+  )
 }
-export default WorkoutDetails; 
+
+export default WorkoutDetails

@@ -118,6 +118,7 @@ nav button {
   font-family: "Poppins";
   cursor: pointer;
   font-size: 1em;
+  margin-left: 10px;
 }
 
 /* auth forms */
@@ -128,3 +129,5 @@ form.signup, form.login {
   background: #fff;
   border-radius: 4px;
 }
+
+
