@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const workoutRoutes = require('./routes/workout');
+const userRoutes = require('./routes/user');
 const app = express();
 const cors = require('cors');
 const port = process.env.PORT;
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/workouts', workoutRoutes);
+app.use('/api/user', userRoutes);
 
 // Sample route
 app.get('/', (req, res) => {
@@ -24,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 
-//connect to db
+//connect to db then run server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
   app.listen(port, () => {

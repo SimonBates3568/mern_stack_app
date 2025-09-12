@@ -22,9 +22,9 @@ const WorkoutDetails = ({ workout }) => {
             <h4><strong>{workout.title}</strong></h4>
             <p><strong>{workout.load}kg</strong></p>
             <p><strong>{workout.reps} reps</strong></p>
-            <p><strong>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</strong></p>
+            <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
             <span onClick={() => handleDelete(workout._id)} className="material-symbols-outlined"><FaTrash /></span>
         </div>
     );
 }
-export default WorkoutDetails;
+export default WorkoutDetails; 
