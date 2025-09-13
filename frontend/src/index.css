@@ -129,5 +129,10 @@ form.signup, form.login {
   background: #fff;
   border-radius: 4px;
 }
+form.signup h3, form.login h3 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
 
 

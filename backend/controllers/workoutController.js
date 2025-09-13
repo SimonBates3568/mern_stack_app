@@ -27,7 +27,7 @@ const getWorkout = async (req, res) => {
 
 //CREATE new workout
 const createWorkout = async (req, res) => {
-    const { title, reps, load } = req.body;
+    const { title, reps, load, notes } = req.body;
 
     let emptyFields = []
 
@@ -40,6 +40,7 @@ const createWorkout = async (req, res) => {
     if(!reps) {
         emptyFields.push('reps')
     }
+    // notes is optional, so no validation here
     if(emptyFields.length > 0) {
         return res.status(400).json({ error: 'Please fill in all the fields', emptyFields })
     }
@@ -51,7 +52,8 @@ const createWorkout = async (req, res) => {
             title,
             load,
             reps,
-            user_id
+            user_id,
+            notes: notes || ''
         })
         res.status(200).json(newWorkout)
     } catch (error){
@@ -79,23 +81,32 @@ const deleteWorkout = async (req,res) => {
 }
 
 //UPDATE a workout by id
-const updateWorkout = async (req,res) => {
-       const { id } = req.params
+const updateWorkout = async (req, res) => {
+    const { id } = req.params;
 
-         if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'No such workout'})
-         }
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such workout' });
+    }
 
-         const updatedWorkout = await workout.findOneAndUpdate({_id: id}, {
-                ...req.body
-         }, { new: true })
+    // Only allow updating allowed fields
+    const { title, reps, load, notes } = req.body;
+    const updateFields = {};
+    if (title !== undefined) updateFields.title = title;
+    if (reps !== undefined) updateFields.reps = reps;
+    if (load !== undefined) updateFields.load = load;
+    if (notes !== undefined) updateFields.notes = notes;
 
-        if(!updatedWorkout) {
-        return res.status(404).json({error: 'No such workout'})
-        }
-        res.status(200).json(updatedWorkout)
+    const updatedWorkout = await workout.findOneAndUpdate(
+        { _id: id },
+        updateFields,
+        { new: true }
+    );
 
-}
+    if (!updatedWorkout) {
+        return res.status(404).json({ error: 'No such workout' });
+    }
+    res.status(200).json(updatedWorkout);
+};
 
 
 module.exports = {

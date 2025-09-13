@@ -16,6 +16,16 @@ export const workoutsReducer = (state, action) => {
       return { 
         workouts: state.workouts.filter(w => w._id !== action.payload._id) 
       }
+    case 'UPDATE_WORKOUT':
+      const updatedWorkouts = state.workouts.map((workout) => {
+        if (workout._id === action.payload._id) {
+          return action.payload
+        }
+        return workout
+      })
+      return {
+        workouts: updatedWorkouts
+      }
     default:
       return state
   }
