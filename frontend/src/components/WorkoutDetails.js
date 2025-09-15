@@ -63,53 +63,94 @@ const WorkoutDetails = ({ workout }) => {
   };
 
   return (
-    <div className="workout-details">
+    <div className="workout-details" style={{ position: 'relative' }}>
       {isEditing ? (
         <form onSubmit={handleUpdate} className="edit-form">
-          <input
-            type="text"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            required
-          />
-          <input
-            type="number"
-            value={load}
-            onChange={e => setLoad(e.target.value)}
-            required
-          />
-          <input
-            type="number"
-            value={reps}
-            onChange={e => setReps(e.target.value)}
-            required
-          />
-          <textarea
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            rows={3}
-            placeholder="Notes/Comments"
-          />
-          <button type="submit">Save</button>
-          <button type="button" onClick={handleCancel}>Cancel</button>
-          <button
-            type="button"
-            onClick={handleDelete}
-            style={{ color: 'white', backgroundColor: 'red', }}
-          >
-            <FaTrash />
-          </button>
+          <div className="form-group">
+            <label htmlFor="edit-title">Title</label>
+            <input
+              id="edit-title"
+              type="text"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              required
+              autoFocus
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="edit-load">Load (kg)</label>
+            <input
+              id="edit-load"
+              type="number"
+              value={load}
+              onChange={e => setLoad(Number(e.target.value))}
+              min="0"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="edit-reps">Reps</label>
+            <input
+              id="edit-reps"
+              type="number"
+              value={reps}
+              onChange={e => setReps(Number(e.target.value))}
+              min="0"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="edit-notes">Notes</label>
+            <textarea
+              id="edit-notes"
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+              rows={3}
+              placeholder="Notes/Comments"
+            />
+          </div>
+          <div className="edit-actions" style={{ display: 'flex', gap: '0.5rem' }}>
+            <button type="submit" className="btn-save">Save</button>
+            <button type="button" onClick={handleCancel} className="btn-cancel">Cancel</button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="btn-delete"
+              title="Delete workout"
+            >
+              <FaTrash />
+            </button>
+          </div>
           {error && <div className="error">{error}</div>}
         </form>
       ) : (
-        <>
-          <h4>{workout.title}</h4>
-          <p><strong>Load (kg): </strong>{workout.load}</p>
-          <p><strong>Reps: </strong>{workout.reps}</p>
-          {workout.notes && <p><strong>Notes: </strong>{workout.notes}</p>}
-          <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
-            <span className="material-symbols-outlined" onClick={handleEdit} style={{ marginLeft: '100px', cursor: 'pointer' }}><FaEdit /></span>
-        </>
+        <div style={{ position: 'relative' }}>
+          <button
+            className="icon-btn"
+            onClick={handleEdit}
+            title="Edit workout"
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              zIndex: 1,
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+          >
+            <FaEdit size="1.2rem" />
+          </button>
+          <div className="workout-header">
+            <h4 style={{ marginRight: '2rem' }}>{workout.title}</h4>
+          </div>
+          <p><strong>Load (kg):</strong> {workout.load}</p>
+          <p><strong>Reps:</strong> {workout.reps}</p>
+          {workout.notes && <p><strong>Notes:</strong> {workout.notes}</p>}
+          <p className="workout-date">
+            {formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}
+          </p>
+        </div>
       )}
     </div>
   );
