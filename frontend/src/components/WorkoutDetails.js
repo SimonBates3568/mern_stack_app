@@ -117,8 +117,9 @@ const WorkoutDetails = ({ workout }) => {
               onClick={handleDelete}
               className="btn-delete"
               title="Delete workout"
+              style={{ marginLeft: 'auto', background: 'none', border: 'none' }}
             >
-              <FaTrash />
+              <FaTrash style={{ color: 'red', cursor: 'pointer'}} />
             </button>
           </div>
           {error && <div className="error">{error}</div>}
