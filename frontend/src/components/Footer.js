@@ -6,7 +6,7 @@ function Footer() {
             style={{
                 background: "#222",
                 color: "#fff",
-                padding: "1rem ",
+                padding: "0.4rem 0",
                 position: "fixed",
                 left: 0,
                 bottom: 0,
@@ -16,14 +16,14 @@ function Footer() {
             }}
         >
             <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>
-                    <FaDumbbell style={{ marginRight: "0.5rem" }} />
+                <div style={{ fontSize: "1.2rem", marginBottom: "0.2rem" }}>
+                    <FaDumbbell style={{ marginRight: "0.3rem" }} />
                     <FaHeart color="#e63946" />
                 </div>
-                <p style={{ margin: 0 }}>
+                <p style={{ margin: 0, fontSize: "0.95rem" }}>
                     &copy; 2025 <strong>Workout Buddy</strong>. All rights reserved.
                 </p>
-                <small style={{ marginTop: "0.5rem", color: "#aaa" }}>
+                <small style={{ marginTop: "0.2rem", color: "#aaa", fontSize: "0.8rem" }}>
                     Made with <FaHeart color="#e63946" /> for fitness lovers.
                 </small>
             </div>
