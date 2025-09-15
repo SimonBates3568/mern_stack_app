@@ -10,15 +10,22 @@ const port = process.env.PORT;
 // Middleware
 app.use(express.json());
 app.use(cors());
+
 //logging middleware
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
 
+
 // Routes
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/user', userRoutes);
+
+// Test route for debugging
+app.get('/api/test', (req, res) => {
+  res.status(200).json({ message: 'Backend is working!' });
+});
 
 // Sample route
 app.get('/', (req, res) => {

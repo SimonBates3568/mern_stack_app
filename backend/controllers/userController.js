@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 //creates a JWT token using .env secret string
 const createToken = (_id) => {
-   return jwt.sign({_id}, process.env.SECRET, { expiresIn: '3d' })
+  return jwt.sign({_id}, process.env.JWT_SECRET, { expiresIn: '3d' })
 }
 
 // login a user
